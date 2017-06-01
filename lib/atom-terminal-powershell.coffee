@@ -7,23 +7,26 @@ platform = require('os').platform
 ###
 open_terminal = (dirpath) ->
   # Figure out the app and the arguments
-  app = atom.config.get('atom-terminal.app')
-  args = atom.config.get('atom-terminal.args')
+  app = atom.config.get('atom-terminal-powershell.app')
+  args = atom.config.get('atom-terminal-powershell.args')
 
   # get options
-  setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
-  isPowerShell = atom.config.get('atom-terminal.isPowerShell')
-  surpressDirArg = atom.config.get('atom-terminal.surpressDirectoryArgument')
-  runDirectly = atom.config.get('atom-terminal.MacWinRunDirectly')
+  setWorkingDirectory = atom.config.get('atom-terminal-powershell.setWorkingDirectory')
+  isPowerShell = atom.config.get('atom-terminal-powershell.isPowerShell')
+  surpressDirArg = atom.config.get('atom-terminal-powershell.surpressDirectoryArgument')
+  runDirectly = atom.config.get('atom-terminal-powershell.MacWinRunDirectly')
 
   # Start assembling the command line
-  cmdline = "\"#{app}\" #{args}"
+  if !isPowerShell
+    cmdline = "\"#{app}\" #{args}"
+  else
+    cmdline = "\"#{app}\" #{args} -noexit "
 
   # If we do not supress the directory argument, add the directory as an argument
   if !surpressDirArg && !isPowerShell
       cmdline  += " \"#{dirpath}\""
   else if !surpressDirArg && isPowerShell
-      cmdline  += "-noexit -command \"cd \'#{dirpath}\'\""
+      cmdline  += "-command \"cd \'#{dirpath}\'\""
 
   # For mac, we prepend open -a unless we run it directly
   if platform() == "darwin" && !runDirectly
@@ -34,7 +37,7 @@ open_terminal = (dirpath) ->
     cmdline = "start \"\" " + cmdline
 
   # log the command so we have context if it fails
-  console.log("atom-terminal executing: ", cmdline)
+  console.log("atom-terminal-powershell executing: ", cmdline)
 
   # Set the working directory if configured
   if setWorkingDirectory
@@ -45,8 +48,8 @@ open_terminal = (dirpath) ->
 
 module.exports =
     activate: ->
-        atom.commands.add "atom-workspace", "atom-terminal:open", => @open()
-        atom.commands.add "atom-workspace", "atom-terminal:open-project-root", => @openroot()
+        atom.commands.add "atom-workspace", "atom-terminal-powershell:open", => @open()
+        atom.commands.add "atom-workspace", "atom-terminal-powershell:open-project-root", => @openroot()
     open: ->
         editor = atom.workspace.getActivePaneItem()
         file = editor?.buffer?.file

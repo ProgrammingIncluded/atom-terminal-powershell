@@ -5,8 +5,8 @@
   "description": "Open powershell terminal in the current file's directory.",
   "activationCommands": {
     "atom-workspace": [
-      "atom-terminal-terminal:open",
-      "atom-terminal-terminal:open-project-root"
+      "atom-terminal-powershell:open",
+      "atom-terminal-powershell:open-project-root"
     ]
   },
   "repository": "https://github.com/superkaitokid/atom-terminal-powershell",
