@@ -1,15 +1,15 @@
 {
-  "name": "atom-terminal",
-  "main": "./lib/atom-terminal",
-  "version": "0.8.1",
-  "description": "Open terminal in the current file's directory.",
+  "name": "atom-terminal-powershell",
+  "main": "./lib/atom-terminal-powershell",
+  "version": "0.0.0",
+  "description": "Open powershell terminal in the current file's directory.",
   "activationCommands": {
     "atom-workspace": [
-      "atom-terminal:open",
-      "atom-terminal:open-project-root"
+      "atom-terminal-terminal:open",
+      "atom-terminal-terminal:open-project-root"
     ]
   },
-  "repository": "https://github.com/karan/atom-terminal",
+  "repository": "https://github.com/superkaitokid/atom-terminal-powershell",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"

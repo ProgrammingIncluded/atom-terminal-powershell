@@ -12,6 +12,7 @@ open_terminal = (dirpath) ->
 
   # get options
   setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
+  isPowerShell = atom.config.get('atom-terminal.isPowerShell')
   surpressDirArg = atom.config.get('atom-terminal.surpressDirectoryArgument')
   runDirectly = atom.config.get('atom-terminal.MacWinRunDirectly')
 
@@ -19,8 +20,10 @@ open_terminal = (dirpath) ->
   cmdline = "\"#{app}\" #{args}"
 
   # If we do not supress the directory argument, add the directory as an argument
-  if !surpressDirArg
+  if !surpressDirArg && !isPowerShell
       cmdline  += " \"#{dirpath}\""
+  else if !surpressDirArg && isPowerShell
+      cmdline  += "-noexit -command \"cd \'#{dirpath}\'\""
 
   # For mac, we prepend open -a unless we run it directly
   if platform() == "darwin" && !runDirectly
@@ -65,10 +68,13 @@ if platform() == 'darwin'
       default: ''
     surpressDirectoryArgument:
       type: 'boolean'
-      default: false
+      default: true
     setWorkingDirectory:
       type: 'boolean'
       default: true
+    isPowerShell:
+        type: 'boolean'
+        default: true
     MacWinRunDirectly:
       type: 'boolean'
       default: false
@@ -77,7 +83,7 @@ else if platform() == 'win32'
   module.exports.config =
       app:
         type: 'string'
-        default: 'C:\\Windows\\System32\\cmd.exe'
+        default: '%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs\\Windows PowerShell\\Windows PowerShell'
       args:
         type: 'string'
         default: ''
@@ -85,6 +91,9 @@ else if platform() == 'win32'
         type: 'boolean'
         default: false
       setWorkingDirectory:
+        type: 'boolean'
+        default: true
+      isPowerShell:
         type: 'boolean'
         default: true
       MacWinRunDirectly:
@@ -101,7 +110,7 @@ else
         default: ''
       surpressDirectoryArgument:
         type: 'boolean'
-        default: false
+        default: true
       setWorkingDirectory:
         type: 'boolean'
         default: true
