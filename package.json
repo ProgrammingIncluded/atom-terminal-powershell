@@ -1,7 +1,7 @@
 {
   "name": "atom-terminal-powershell",
   "main": "./lib/atom-terminal-powershell",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Open powershell terminal in the current file's directory.",
   "activationCommands": {
     "atom-workspace": [
